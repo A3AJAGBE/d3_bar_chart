@@ -1,0 +1,16 @@
+:root {
+    --theme-bg-color: #FF6347;
+    --light-bg-color: #F5F5F5;
+}
+
+.container-fluid {
+    background-color: var(--theme-bg-color);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+main {
+    background-color: var(--light-bg-color);
+}
