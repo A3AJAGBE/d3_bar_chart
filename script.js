@@ -1,7 +1,7 @@
 // const URL = "https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json";
 
-const WIDTH = 600;
-const HEIGHT = 400;
+const WIDTH = 300;
+const HEIGHT = 200;
 const PADDING = 40;
 
 const M = 3; // constant that scales the data points.
@@ -23,8 +23,9 @@ svg.selectAll("rect")
    .attr("x", (d, i) => i * 30) // set each bar coordinates (using the width + 5 for space)
    .attr("y", (d, i) => {
        return HEIGHT - M * d;
-   }); // Inverting svg element by accounting for both the height of the bar and the total height of the SVG area
-              
+   }) // Inverting svg element by accounting for both the height of the bar and the total height of the SVG area
+   .attr("fill", "blue") // set the color of the bars
+      
 
 
 // d3.select("section").selectAll("h2")
