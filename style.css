@@ -15,13 +15,17 @@ main {
     background-color: var(--light-bg-color);
 }
 
-.bar {
+/* .bar {
     width: 25px;
     height: 100px;
     margin: 2px;
     display: inline-block;
     background-color:cornflowerblue;
-  }
+} */
+
+.bar:hover {
+    fill:dodgerblue;
+}
 
 svg {
     background-color: var(--theme-bg-color);
