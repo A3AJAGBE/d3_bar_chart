@@ -21,11 +21,23 @@ svg.selectAll("rect")
    .attr("width", 25) // rect width
    .attr("height", d => d * M) // rect height (set bar height to data value - multiplied by data scale constants)
    .attr("x", (d, i) => i * 30) // set each bar coordinates (using the width + 5 for space)
-   .attr("y", (d, i) => {
-       return HEIGHT - M * d;
-   }) // Inverting svg element by accounting for both the height of the bar and the total height of the SVG area
-   .attr("fill", "blue") // set the color of the bars
-      
+   .attr("y", d => HEIGHT - M * d) // Inverting svg element by accounting for both the height of the bar and the total height of the SVG area
+   .attr("fill", "blue"); // set the color of the bars
+  
+// Labels Setup      
+svg.selectAll("text")
+   .data(dataset)
+   .enter()
+   .append("text")
+   .text((d) => d)
+   .attr("x", (d, i) => i * 30) // same as the rect
+   .attr("y", d => HEIGHT - (d * 3) - M)
+   .attr("font-size", 20 + "px");
+
+
+
+
+
 
 
 // d3.select("section").selectAll("h2")
