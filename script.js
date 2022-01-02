@@ -1,8 +1,15 @@
-const URL = "https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json";
+// const URL = "https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json";
 
-let request = new XMLHttpRequest();
+// const WIDTH = 800;
+// const HEIGHT = 500;
+// const PADDING = 40;
 
-const WIDTH = 800;
-const HEIGHT = 500;
-const PADDING = 40;
+const dataset = [12, 31, 22, 17, 25, 18, 29, 14];
+
+d3.select("section").selectAll("h2")
+  .data(dataset)
+  .enter()
+  .append("div")
+  .attr("class", "bar")
+  .style("height", (d) => (d * 10 + "px"))
 
