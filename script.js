@@ -10,11 +10,17 @@ const svg = d3.select("section")
               .append("svg")
               .attr("width", WIDTH) // svg width
               .attr("height", HEIGHT) // svg height
-              .append("rect")
-              .attr("width", 25) // rect width
-              .attr("height", 100) // rect height
-              .attr("x", 0)
-              .attr("y", 0)
+
+
+svg.selectAll("rect")
+   .data(dataset)
+   .enter()
+   .append("rect")
+   .attr("width", 25) // rect width
+   .attr("height", d => d * 3) // rect height (set bar height to data value - multiplied by 3)
+   .attr("x", (d, i) => i * 30) // set each bar coordinates (using the width + 5 for space)
+   .attr("y", 0);
+              
 
 
 // d3.select("section").selectAll("h2")

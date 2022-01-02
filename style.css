@@ -14,3 +14,15 @@
 main {
     background-color: var(--light-bg-color);
 }
+
+.bar {
+    width: 25px;
+    height: 100px;
+    margin: 2px;
+    display: inline-block;
+    background-color:cornflowerblue;
+  }
+
+svg {
+    background-color: var(--theme-bg-color);
+}
