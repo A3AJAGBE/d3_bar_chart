@@ -17,7 +17,7 @@ const dataset = [
   ];
 
 // Space between the SVG boundary and the plot
-const PADDING = 20;
+const PADDING = 50;
 
 // Data scales to prevent visualization from exceeding the SVG width/height.
 const xScale = d3.scaleLinear()
@@ -28,18 +28,42 @@ const yScale = d3.scaleLinear()
 yScale.domain([0, d3.max(dataset, (d) => d[1])])
 yScale.range([HEIGHT - PADDING, PADDING]);
 
-const output = yScale(411);
+const svg = d3.select("section")
+              .append("svg")
+              .attr("width", WIDTH) // svg width
+              .attr("height", HEIGHT) // svg height
 
-d3.select("section")
-  .append("h2")
-  .text(output);
+const M = 3; // constant that scales the data points.
 
-// const svg = d3.select("section")
-//               .append("svg")
-//               .attr("width", WIDTH) // svg width
-//               .attr("height", HEIGHT) // svg height
+// Using pre-defined Scale to Place Elements
+svg.selectAll("circle")
+  .data(dataset)
+  .enter()
+  .append("circle")
+  .attr("cx", (d) => xScale(d[0]))
+  .attr("cy", (d) => yScale(d[1]))
+  .attr("r", 5);
 
-// const M = 3; // constant that scales the data points.
+svg.selectAll("text")
+  .data(dataset)
+  .enter()
+  .append("text")
+  .text((d) =>  (d[0] + ", " + d[1]))
+  .attr("x", (d) => xScale(d[0] + 10))
+  .attr("y", (d) => yScale(d[1]));
+
+// Improve visualization by adding Axes
+const xAxis = d3.axisBottom(xScale);
+const yAxis = d3.axisLeft(yScale);
+
+// Rendering the axes using g element
+svg.append("g")
+   .attr("transform", "translate(0, " + (HEIGHT - PADDING) + ")")
+   .call(xAxis);
+
+svg.append("g")
+.attr("transform", "translate( " + PADDING + ",0)")
+.call(yAxis);
 
 // svg.selectAll("rect")
 //    .data(dataset)
@@ -56,7 +80,6 @@ d3.select("section")
 //    .text(d => d) // toolip data
 
 
-
 // // Labels Setup      
 // svg.selectAll("text")
 //    .data(dataset)
@@ -68,6 +91,22 @@ d3.select("section")
 //    .attr("font-size", 20 + "px");
 
 
+/* Tests */
+// svg.selectAll("circle")
+//   .data(dataset)
+//   .enter()
+//   .append("circle")
+//   .attr("cx", (d) => xScale(d[0]))
+//   .attr("cy", (d) => yScale(d[1]))
+//   .attr("r", 5);
+
+// svg.selectAll("text")
+//   .data(dataset)
+//   .enter()
+//   .append("text")
+//   .text((d) =>  (d[0] + ", " + d[1]))
+//   .attr("x", (d) => xScale(d[0] + 10))
+//   .attr("y", (d) => yScale(d[1]));
 
 // d3.select("section").selectAll("h2")
 //   .data(dataset)
