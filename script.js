@@ -1,69 +1,68 @@
-// const URL = "https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json";
+const URL = "https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json";
 
-const WIDTH = 500;
-const HEIGHT = 500;
+fetch(URL)
+    .then(res => res.json())
+    .then(dataset => {
+        const {data} = dataset;
 
-const dataset = [
-    [ 34,    78 ],
-    [ 109,   280 ],
-    [ 310,   120 ],
-    [ 79,    411 ],
-    [ 420,   220 ],
-    [ 233,   145 ],
-    [ 333,   96 ],
-    [ 222,   333 ],
-    [ 78,    320 ],
-    [ 21,    123 ]
-  ];
+        createSVG(data);
+    });
+
+const WIDTH = 800;
+const HEIGHT = 600;
+
 
 // Space between the SVG boundary and the plot
-const PADDING = 50;
+const PADDING = 40;
 
-// Data scales to prevent visualization from exceeding the SVG width/height.
-const xScale = d3.scaleLinear()
-xScale.domain([0, d3.max(dataset, (d) => d[0])])
-xScale.range([PADDING, WIDTH - PADDING]);
+const createSVG = (dataset) => {
 
-const yScale = d3.scaleLinear()
-yScale.domain([0, d3.max(dataset, (d) => d[1])])
-yScale.range([HEIGHT - PADDING, PADDING]);
+    const svg = d3.select("section")
+    .append("svg")
+    .attr("width", WIDTH)
+    .attr("height", HEIGHT)
 
-const svg = d3.select("section")
-              .append("svg")
-              .attr("width", WIDTH) // svg width
-              .attr("height", HEIGHT) // svg height
+    const M = 3;
 
-const M = 3; // constant that scales the data points.
+    svg.selectAll("rect")
+    .data(dataset)
+    .enter()
+    .append("rect")
+    .attr("width", 5) 
+    .attr("height", d => d[1] + "px")
+    .attr("x", (d, i) => i * 6)
+    .attr("y", d => HEIGHT - d[1])
+    .attr("fill", "blue") 
+    .attr("class", "bar") 
+    .append("title") 
+    .attr("id", "tooltip") 
+    .text(d => "$" + d[1] + " Billion")
+}
 
-// Using pre-defined Scale to Place Elements
-svg.selectAll("circle")
-  .data(dataset)
-  .enter()
-  .append("circle")
-  .attr("cx", (d) => xScale(d[0]))
-  .attr("cy", (d) => yScale(d[1]))
-  .attr("r", 5);
+// // Data scales to prevent visualization from exceeding the SVG width/height.
+// const xScale = d3.scaleLinear()
+// xScale.domain([0, d3.max(dataset, (d) => d[0])])
+// xScale.range([PADDING, WIDTH - PADDING]);
 
-svg.selectAll("text")
-  .data(dataset)
-  .enter()
-  .append("text")
-  .text((d) =>  (d[0] + ", " + d[1]))
-  .attr("x", (d) => xScale(d[0] + 10))
-  .attr("y", (d) => yScale(d[1]));
+// const yScale = d3.scaleLinear()
+// yScale.domain([0, d3.max(dataset, (d) => d[1])])
+// yScale.range([HEIGHT - PADDING, PADDING]);
 
-// Improve visualization by adding Axes
-const xAxis = d3.axisBottom(xScale);
-const yAxis = d3.axisLeft(yScale);
 
-// Rendering the axes using g element
-svg.append("g")
-   .attr("transform", "translate(0, " + (HEIGHT - PADDING) + ")")
-   .call(xAxis);
+// // Improve visualization by adding Axes
+// const xAxis = d3.axisBottom(xScale);
+// const yAxis = d3.axisLeft(yScale);
 
-svg.append("g")
-.attr("transform", "translate( " + PADDING + ",0)")
-.call(yAxis);
+// // Rendering the axes using g element
+// svg.append("g")
+//    .attr("id", "x-axis")
+//    .attr("transform", "translate(0, " + (HEIGHT - PADDING) + ")")
+//    .call(xAxis);
+
+// svg.append("g")
+//    .attr("id", "y-axis")
+//    .attr("transform", "translate( " + PADDING + ",0)")
+//    .call(yAxis);
 
 // svg.selectAll("rect")
 //    .data(dataset)
