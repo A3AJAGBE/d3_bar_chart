@@ -1,22 +1,34 @@
 // const URL = "https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json";
 
-const WIDTH = 300;
-const HEIGHT = 200;
-const PADDING = 40;
+const WIDTH = 500;
+const HEIGHT = 500;
 
-const M = 3; // constant that scales the data points.
+const dataset = [
+    [ 34,    78 ],
+    [ 109,   280 ],
+    [ 310,   120 ],
+    [ 79,    411 ],
+    [ 420,   220 ],
+    [ 233,   145 ],
+    [ 333,   96 ],
+    [ 222,   333 ],
+    [ 78,    320 ],
+    [ 21,    123 ]
+  ];
 
-const dataset = [12, 31, 22, 17, 25, 18, 29, 14];
+// Space between the SVG boundary and the plot
+const PADDING = 20;
 
 // Data scales to prevent visualization from exceeding the SVG width/height.
-const scale = d3.scaleLinear(); // linear scale (usually used with quantitative data)
+const xScale = d3.scaleLinear()
+xScale.domain([0, d3.max(dataset, (d) => d[0])])
+xScale.range([PADDING, WIDTH - PADDING]);
 
-// set a domain and range
-scale.domain([250, 500]);
-scale.range([10, 150]);
+const yScale = d3.scaleLinear()
+yScale.domain([0, d3.max(dataset, (d) => d[1])])
+yScale.range([HEIGHT - PADDING, PADDING]);
 
-
-const output = scale(50);
+const output = yScale(411);
 
 d3.select("section")
   .append("h2")
@@ -27,6 +39,7 @@ d3.select("section")
 //               .attr("width", WIDTH) // svg width
 //               .attr("height", HEIGHT) // svg height
 
+// const M = 3; // constant that scales the data points.
 
 // svg.selectAll("rect")
 //    .data(dataset)
