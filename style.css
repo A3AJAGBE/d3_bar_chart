@@ -26,7 +26,3 @@ main {
 .bar:hover {
     fill:dodgerblue;
 }
-
-svg {
-    background-color: var(--theme-bg-color);
-}
