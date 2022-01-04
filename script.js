@@ -8,9 +8,10 @@ fetch(URL)
         createSVG(data);
     });
 
-const WIDTH = 800;
-const HEIGHT = 600;
+const WIDTH = 900;
+const HEIGHT = 500;
 
+const BarWidth = WIDTH/275;
 
 // Space between the SVG boundary and the plot
 const PADDING = 40;
@@ -28,15 +29,15 @@ const createSVG = (dataset) => {
     .data(dataset)
     .enter()
     .append("rect")
-    .attr("width", 5) 
+    .attr("width", BarWidth) 
     .attr("height", d => d[1] + "px")
-    .attr("x", (d, i) => i * 6)
+    .attr("x", (d, i) => i * (BarWidth + 2))
     .attr("y", d => HEIGHT - d[1])
     .attr("fill", "blue") 
     .attr("class", "bar") 
     .append("title") 
     .attr("id", "tooltip") 
-    .text(d => "$" + d[1] + " Billion")
+    .text(d => "$" + d[1] + " Billion");
 }
 
 // // Data scales to prevent visualization from exceeding the SVG width/height.
