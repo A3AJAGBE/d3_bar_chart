@@ -10,36 +10,20 @@ fetch(URL)
     .then(res => res.json())
     .then(dataset => {
         const {data} = dataset;
-    
-        createSVG(data);
+        
+        //year extract from data as x
+        createSVG(data.map(d => [d[0].split("-")[0], d[1]]));
     });
 
 const createSVG = (dataset) => {
-
-
     // Data scales to prevent visualization from exceeding the SVG width/height.
-    // const xScale = d3.scaleLinear()
-    // xScale.domain([0, d3.max(dataset, (d) => d[0])])
-    // xScale.range([PADDING, WIDTH - PADDING]);
+    const xScale = d3.scaleLinear()
+    xScale.domain([d3.min(dataset, (d) => d[0]), d3.max(dataset, (d) => d[0])])
+    xScale.range([PADDING, WIDTH - PADDING]);
 
     const yScale = d3.scaleLinear()
     yScale.domain([0, d3.max(dataset, (d) => d[1])])
-    yScale.range([0, HEIGHT]);
-
-    // // Improve visualization by adding Axes
-    // const xAxis = d3.axisBottom(xScale);
-    // const yAxis = d3.axisLeft(yScale);
-
-    // Rendering the axes using g element
-    // svg.append("g")
-    // .attr("id", "x-axis")
-    // .attr("transform", "translate(0, " + (HEIGHT - PADDING) + ")")
-    // .call(xAxis);
-
-    // svg.append("g")
-    // .attr("id", "y-axis")
-    // .attr("transform", "translate( " + PADDING + ",0)")
-    // .call(yAxis);
+    yScale.range([HEIGHT - PADDING, PADDING]);
 
     const BarWidth = WIDTH / dataset.length;
 
@@ -53,12 +37,26 @@ const createSVG = (dataset) => {
     .enter()
     .append("rect")
     .attr("width", BarWidth) 
-    .attr("height", d => yScale(d[1]) + "px")
+    .attr("height", d => yScale(d[1]))
     .attr("x", (d, i) => i * BarWidth)
     .attr("y", d => HEIGHT - yScale(d[1]))
-    .attr("fill", "blue") 
     .attr("class", "bar") 
     .append("title") 
     .attr("id", "tooltip") 
     .text(d => "$" + d[1] + " Billion");
+
+    // // Improve visualization by adding Axes
+    const xAxis = d3.axisBottom(xScale);
+    const yAxis = d3.axisLeft(yScale);
+
+    // Rendering the axes using g element
+    svg.append("g")
+    .attr("id", "x-axis")
+    .attr("transform", `translate(0, ${HEIGHT - PADDING})`)
+    .call(xAxis);
+
+    svg.append("g")
+    .attr("id", "y-axis")
+    .attr("transform", `translate(${PADDING}, 0)`)
+    .call(yAxis);
 }
