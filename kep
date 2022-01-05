@@ -1,0 +1,23 @@
+const MARGIN = {top: 40, bottom: 10, left: 120, right: 20};
+const WIDTH = 1000 - MARGIN.left - MARGIN.right;
+const HEIGHT = 800 - MARGIN.top - MARGIN.bottom;
+
+// Creates sources <svg> element
+const SVG = d3.select('section').append('svg')
+.attr('width', WIDTH + MARGIN.left + MARGIN.right)
+.attr('height', HEIGHT + MARGIN.top + MARGIN.bottom);
+
+// Group used to enforce margin
+const g = SVG.append('g')
+.attr('transform', `translate(${MARGIN.left},${MARGIN.top})`);
+
+
+// Scales setup
+const xscale = d3.scaleLinear().range([0, WIDTH]);
+const yscale = d3.scaleBand().rangeRound([0, HEIGHT]).paddingInner(0.1);
+
+// Axis setup
+const xaxis = d3.axisTop().scale(xscale);
+const g_xaxis = g.append('g').attr('class','x axis');
+const yaxis = d3.axisLeft().scale(yscale);
+const g_yaxis = g.append('g').attr('class','y axis');
