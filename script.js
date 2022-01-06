@@ -25,7 +25,7 @@ const createSVG = (dataset) => {
     yScale.domain([0, d3.max(dataset, (d) => d[1])])
     yScale.range([HEIGHT - PADDING, PADDING]);
 
-    const BarWidth = WIDTH / dataset.length;
+    const BarWidth = (WIDTH - 2 * PADDING) / dataset.length;
 
     const svg = d3.select("section")
                   .append("svg")
@@ -37,9 +37,9 @@ const createSVG = (dataset) => {
     .enter()
     .append("rect")
     .attr("width", BarWidth) 
-    .attr("height", d => yScale(d[1]))
-    .attr("x", (d, i) => i * BarWidth)
-    .attr("y", d => HEIGHT - yScale(d[1]))
+    .attr("height", d => HEIGHT - yScale(d[1]))
+    .attr("x", (d, i) => i * BarWidth + PADDING)
+    .attr("y", d => yScale(d[1]) - PADDING)
     .attr("class", "bar") 
     .append("title") 
     .attr("id", "tooltip") 
@@ -54,7 +54,6 @@ const createSVG = (dataset) => {
     .attr("id", "x-axis")
     .attr("transform", `translate(0, ${HEIGHT - PADDING})`)
     .call(xAxis);
-
     svg.append("g")
     .attr("id", "y-axis")
     .attr("transform", `translate(${PADDING}, 0)`)
