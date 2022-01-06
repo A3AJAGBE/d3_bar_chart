@@ -11,8 +11,8 @@ fetch(URL)
     .then(dataset => {
         const {data} = dataset;
         
-        //year extract from data as x
-        createSVG(data.map(d => [d[0].split("-")[0], d[1]]));
+        // create a new array of year, gdp and date.
+        createSVG(data.map(d => [d[0].split("-")[0], d[1], d[0]]));
     });
 
 const createSVG = (dataset) => {
@@ -41,6 +41,8 @@ const createSVG = (dataset) => {
     .attr("x", (d, i) => i * BarWidth + PADDING)
     .attr("y", d => yScale(d[1]) - PADDING)
     .attr("class", "bar") 
+    .attr("data-date", d => d[2]) 
+    .attr("data-gdp", d => d[1]) 
     .append("title") 
     .attr("id", "tooltip") 
     .text(d => "$" + d[1] + " Billion");
