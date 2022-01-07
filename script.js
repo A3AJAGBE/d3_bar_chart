@@ -4,6 +4,17 @@ const HEIGHT = 500;
 // Space between the SVG boundary and the plot
 const PADDING = 40;
 
+// create a tooltip
+const TOOLTIP = d3.select("section")
+                    .append("div")
+                    .attr("id", "tooltip")
+                    .attr('opacity', 0);
+
+const OVERLAY = d3.select("section")
+                   .append("div")
+                   .attr("class", "overlay")
+                   .attr('opacity', 0);
+
 const URL = "https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json";
 
 fetch(URL)
@@ -64,4 +75,17 @@ const createSVG = (dataset) => {
     .append("title") 
     .attr("id", "tooltip") 
     .text(d => "$" + d[1] + " Billion");
+
+    // X Axis text
+    svg.append("text")
+       .attr("transform", "rotate(-90)")
+       .attr("x", -150)
+       .attr("y", 60)
+       .text("GDP Value");
+
+    // Y Axis text
+    svg.append("text")
+       .attr("x", 250)
+       .attr("y", HEIGHT - 2)
+       .text("http://www.bea.gov/national/pdf/nipaguid.pdf");
 }
