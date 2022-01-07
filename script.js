@@ -16,38 +16,25 @@ fetch(URL)
     });
 
 const createSVG = (dataset) => {
-    // Data scales to prevent visualization from exceeding the SVG width/height.
-    const xScale = d3.scaleLinear()
-    xScale.domain([d3.min(dataset, (d) => d[0]), d3.max(dataset, (d) => d[0])])
-    xScale.range([PADDING, WIDTH - PADDING]);
-
-    const yScale = d3.scaleLinear()
-    yScale.domain([0, d3.max(dataset, (d) => d[1])])
-    yScale.range([HEIGHT - PADDING, PADDING]);
-
     const BarWidth = (WIDTH - 2 * PADDING) / dataset.length;
 
+    // SVG Canvas
     const svg = d3.select("section")
-                  .append("svg")
-                  .attr("width", WIDTH)
-                  .attr("height", HEIGHT);
+    .append("svg")
+    .attr("width", WIDTH)
+    .attr("height", HEIGHT);
 
-    svg.selectAll("rect")
-    .data(dataset)
-    .enter()
-    .append("rect")
-    .attr("width", BarWidth) 
-    .attr("height", d => HEIGHT - yScale(d[1]))
-    .attr("x", (d, i) => i * BarWidth + PADDING)
-    .attr("y", d => yScale(d[1]) - PADDING)
-    .attr("class", "bar") 
-    .attr("data-date", d => d[2]) 
-    .attr("data-gdp", d => d[1]) 
-    .append("title") 
-    .attr("id", "tooltip") 
-    .text(d => "$" + d[1] + " Billion");
+    // Data scales to prevent visualization from exceeding the SVG width/height.
+    xMin = d3.min(dataset, d => d[0]);
+    xMax = d3.max(dataset, d => d[0]);
+    const xScale = d3.scaleLinear().domain([xMin, xMax]);
+    xScale.range([PADDING, WIDTH - PADDING]);
 
-    // // Improve visualization by adding Axes
+    yMax = d3.max(dataset, (d) => d[1]);
+    const yScale = d3.scaleLinear().domain([0, yMax])
+    yScale.range([HEIGHT - PADDING, PADDING]);
+                         
+    // Improve visualization by adding Axes
     const xAxis = d3.axisBottom(xScale);
     const yAxis = d3.axisLeft(yScale);
 
@@ -56,8 +43,25 @@ const createSVG = (dataset) => {
     .attr("id", "x-axis")
     .attr("transform", `translate(0, ${HEIGHT - PADDING})`)
     .call(xAxis);
+
     svg.append("g")
     .attr("id", "y-axis")
     .attr("transform", `translate(${PADDING}, 0)`)
     .call(yAxis);
+
+    svg.selectAll("rect")
+    .data(dataset)
+    .enter()
+    .append("rect")
+    .attr("width", BarWidth) 
+    .attr("height", d => HEIGHT - yScale(d[1]))
+    .attr("x", (d, i) => (i * BarWidth) + PADDING)
+    .attr("y", d => yScale(d[1]) - PADDING)
+    .attr("class", "bar") 
+    .attr("data-date", d => d[2]) 
+    .attr("data-gdp", d => d[1]) 
+    .attr("index", (d, i) => i)
+    .append("title") 
+    .attr("id", "tooltip") 
+    .text(d => "$" + d[1] + " Billion");
 }
