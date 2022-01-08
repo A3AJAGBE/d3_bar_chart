@@ -55,11 +55,11 @@ fetch(URL)
         xMin = d3.min(newDate);
         xMax = new Date(d3.max(newDate));
         const xScale = d3.scaleTime().domain([xMin, xMax]);
-        xScale.range([0, WIDTH]);
+        xScale.range([MARGIN, WIDTH]);
 
         yMax = d3.max(getGDP);
         const yScale = d3.scaleLinear().domain([0, yMax])
-        yScale.range([HEIGHT, MARGIN]);
+        yScale.range([HEIGHT, 0]);
 
         // Improve visualization by adding Axes
         const xAxis = d3.axisBottom(xScale);
@@ -68,7 +68,7 @@ fetch(URL)
         // Rendering the axes using g element
         svg.append("g")
         .attr("id", "x-axis")
-        .attr("transform", `translate(${MARGIN}, ${HEIGHT})`)
+        .attr("transform", `translate(0, ${HEIGHT})`)
         .call(xAxis);
 
         svg.append("g")
@@ -85,5 +85,18 @@ fetch(URL)
         });
         // console.log(getScaledGDP);
 
-        
+        const BarWidth = WIDTH / getScaledGDP.length;
+
+        svg.selectAll("rect")
+            .data(getScaledGDP)
+            .enter()
+            .append("rect")
+            .attr("width", BarWidth) 
+            .attr("height", d => d)
+            .attr("x", (d, i) => xScale(newDate[i]))
+            .attr("y", d => HEIGHT - d)
+            .attr("class", "bar") 
+            .attr("data-date", (d, i) => data[i][0]) 
+            .attr("data-gdp", (d, i) => data[i][1]) 
+            .attr("index", (d, i) => i)
     });
