@@ -101,18 +101,17 @@ const createSVG = (data) => {
             .on("mouseover", function (event, d) {
                 let i = this.getAttribute('index');
             
-                TOOLTIP.transition().duration(200)
+                TOOLTIP.transition().duration(200).style("visibility", "visible");
                 
                 TOOLTIP.html( 
                     DateInfo[i] + "<br /> $" + getGDP[i].toFixed(1).replace(/(\d)(?=(\d{3})+\.)/g, '$1,') + ' Billion'
                 )
                 .attr("data-date", data[i][0]) 
-                .style("visibility", "visible")
                 .style('transform', 'translateX(500px)');
             
             })
             .on('mouseout', function () {
-                TOOLTIP.transition().duration(200);
+                TOOLTIP.transition().duration(200).style("visibility", "hidden");
             });
 
          // Add text to x and y axis
