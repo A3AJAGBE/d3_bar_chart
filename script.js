@@ -26,6 +26,11 @@ fetch(URL)
         const {data} = dataset;
         // console.log(data);
 
+        createSVG(data);
+    });
+
+const createSVG = (data) => {       
+
         const DateInfo = data.map( d => {
             let month =  d[0].split("-")[1];
             let quarter = "";
@@ -112,4 +117,4 @@ fetch(URL)
             .attr("y", HEIGHT + 30)
             .text("For more information: http://www.bea.gov/national/pdf/nipaguid.pdf")
             .attr("font-size", "10px");
-    });
+    };
