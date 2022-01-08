@@ -5,13 +5,7 @@ const MARGIN = 40;
 const TOOLTIP = d3.select("section")
                     .append("div")
                     .attr("id", "tooltip")
-                    .attr('opacity', 0);
-
-const OVERLAY = d3.select("section")
-                   .append("div")
-                   .attr("class", "overlay")
-                   .attr('opacity', 0);
-
+                    .style("visibility", "hidden");
 
 const svg = d3.select("section")
                 .append("svg")
@@ -33,6 +27,7 @@ const createSVG = (data) => {
 
         const DateInfo = data.map( d => {
             let month =  d[0].split("-")[1];
+            let year =  d[0].split("-")[0];
             let quarter = "";
     
             if (month === '01') {
@@ -45,7 +40,7 @@ const createSVG = (data) => {
                 quarter = 'Q4';
             }
         
-            return `${month}  ${quarter}`;
+            return `${year} ${quarter}`;
         });
 
         const newDate = data.map(d => { 
@@ -88,7 +83,6 @@ const createSVG = (data) => {
         const getScaledGDP = getGDP.map(d => {
             return GDPLinearScale(d);
         });
-        // console.log(getScaledGDP);
 
         const BarWidth = WIDTH / getScaledGDP.length;
 
@@ -104,6 +98,22 @@ const createSVG = (data) => {
             .attr("data-date", (d, i) => data[i][0]) 
             .attr("data-gdp", (d, i) => data[i][1]) 
             .attr("index", (d, i) => i)
+            .on("mouseover", function (event, d) {
+                let i = this.getAttribute('index');
+            
+                TOOLTIP.transition().duration(200)
+                
+                TOOLTIP.html( 
+                    DateInfo[i] + "<br /> $" + getGDP[i].toFixed(1).replace(/(\d)(?=(\d{3})+\.)/g, '$1,') + ' Billion'
+                )
+                .attr("data-date", data[i][0]) 
+                .style("visibility", "visible")
+                .style('transform', 'translateX(500px)');
+            
+            })
+            .on('mouseout', function () {
+                TOOLTIP.transition().duration(200);
+            });
 
          // Add text to x and y axis
         svg.append("text")
