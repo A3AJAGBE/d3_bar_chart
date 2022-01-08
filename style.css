@@ -23,3 +23,16 @@ main {
 .bar:hover {
     fill:dodgerblue;
 }
+
+#tooltip {
+    background-color: var(--theme-bg-color);
+    box-shadow: 1px 1px 10px;
+    color: var(--light-bg-color);
+    border-radius: 5px;
+    width: 150px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+}
