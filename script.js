@@ -1,5 +1,5 @@
 const WIDTH = 800;
-const HEIGHT = 500;
+const HEIGHT = 400;
 const MARGIN = 40;
 
 const TOOLTIP = d3.select("section")
@@ -9,7 +9,7 @@ const TOOLTIP = d3.select("section")
 
 const svg = d3.select("section")
                 .append("svg")
-                .attr("width", WIDTH + (2 * MARGIN))
+                .attr("width", WIDTH + 20)
                 .attr("height", HEIGHT + MARGIN);
 
 const URL = "https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json";
@@ -107,7 +107,7 @@ const createSVG = (data) => {
                     DateInfo[i] + "<br /> $" + getGDP[i].toFixed(1).replace(/(\d)(?=(\d{3})+\.)/g, '$1,') + ' Billion'
                 )
                 .attr("data-date", data[i][0]) 
-                .style('transform', 'translateX(500px)');
+                .style('transform', 'translateX(550px)');
             
             })
             .on('mouseout', function () {
