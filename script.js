@@ -99,4 +99,17 @@ fetch(URL)
             .attr("data-date", (d, i) => data[i][0]) 
             .attr("data-gdp", (d, i) => data[i][1]) 
             .attr("index", (d, i) => i)
+
+         // Add text to x and y axis
+        svg.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("x", -100)
+            .attr("y", 60)
+            .text("GDP Value");
+
+        svg.append("text")
+            .attr("x", 250)
+            .attr("y", HEIGHT + 30)
+            .text("For more information: http://www.bea.gov/national/pdf/nipaguid.pdf")
+            .attr("font-size", "10px");
     });
